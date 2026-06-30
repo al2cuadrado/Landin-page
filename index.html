@@ -302,6 +302,7 @@ footer{position:relative;z-index:2;overflow:hidden;}
 
 /* ── RESPONSIVE ── */
 @media(max-width:1024px){
+  #hero{padding:140px 24px 80px; align-items:flex-start; min-height:auto;}
   .hero-inner,.why-grid,.ft-inner{grid-template-columns:1fr;}
   .hero-right{display:none;}
   .svc-grid{grid-template-columns:1fr 1fr;}
@@ -309,6 +310,7 @@ footer{position:relative;z-index:2;overflow:hidden;}
   .process-grid{grid-template-columns:1fr 1fr;gap:40px;}
   .process-line{display:none;}
   nav{padding:20px 24px;}
+  nav.s{padding:16px 24px;}
   .nav-links{display:none;}
   .sec,.sec-full{padding:90px 24px;}
   .stats-sec{padding:80px 24px;}
@@ -319,6 +321,9 @@ footer{position:relative;z-index:2;overflow:hidden;}
   .ft-middle,.ft-bottom{padding-left:24px;padding-right:24px;}
 }
 @media(max-width:600px){
+  .nav-logo{font-size:1rem;}
+  .nav-btn{padding:8px 20px; font-size:.75rem;}
+  #hero{padding-top:120px;}
   .svc-grid{grid-template-columns:1fr;}
   .stats-inner{grid-template-columns:1fr 1fr;}
   .hero-actions{flex-direction:column;}
