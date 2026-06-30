@@ -663,13 +663,16 @@ footer{position:relative;z-index:2;overflow:hidden;}
       <p class="cta-sub">Contanos tu proyecto y te preparamos una propuesta sin costo en menos de 48hs.</p>
     </div>
     <form class="cta-form rv" id="cta-form" onsubmit="submitForm(event)">
+      <input type="hidden" name="access_key" value="97d5c4df-bf20-499c-a293-1fce4664e5b6"/>
+      <input type="hidden" name="subject" value="Nuevo contacto desde al cuadrado²"/>
+      <input type="hidden" name="from_name" value="al cuadrado² Web"/>
       <div class="f-row">
-        <input class="fi" type="text" placeholder="Tu nombre" required id="f-name"/>
-        <input class="fi" type="email" placeholder="Email" required id="f-email"/>
+        <input class="fi" type="text" name="name" placeholder="Tu nombre" required id="f-name"/>
+        <input class="fi" type="email" name="email" placeholder="Email" required id="f-email"/>
       </div>
       <div class="f-row">
-        <input class="fi" type="text" placeholder="Empresa / Marca" id="f-company"/>
-        <select class="fi" id="f-service">
+        <input class="fi" type="text" name="company" placeholder="Empresa / Marca" id="f-company"/>
+        <select class="fi" name="service" id="f-service">
           <option value="">¿Qué necesitás?</option>
           <option>Social Media Manager</option>
           <option>Creación de Contenido</option>
@@ -680,8 +683,8 @@ footer{position:relative;z-index:2;overflow:hidden;}
           <option>Paquete completo</option>
         </select>
       </div>
-      <textarea class="fi" placeholder="Contanos sobre tu proyecto..." id="f-msg"></textarea>
-      <button type="submit" class="f-submit mag">Enviar propuesta →</button>
+      <textarea class="fi" name="message" placeholder="Contanos sobre tu proyecto..." id="f-msg"></textarea>
+      <button type="submit" class="f-submit mag" id="f-btn">Enviar propuesta →</button>
       <p class="cta-alt">¿Preferís escribirnos? <a href="mailto:hola@alcuadrado.com">hola@alcuadrado.com</a></p>
     </form>
     <div class="form-ok" id="form-ok">✓ ¡Mensaje enviado! Te respondemos en menos de 48hs.</div>
@@ -813,10 +816,40 @@ document.querySelectorAll('.svc-card').forEach(card=>{
 });
 
 /* ── FORM ── */
-function submitForm(e){
+async function submitForm(e){
   e.preventDefault();
-  document.getElementById('cta-form').style.display='none';
-  document.getElementById('form-ok').style.display='block';
+  const form=document.getElementById('cta-form');
+  const btn=document.getElementById('f-btn');
+  const ok=document.getElementById('form-ok');
+  btn.disabled=true;
+  btn.textContent='Enviando...';
+  try{
+    const res=await fetch('https://api.web3forms.com/submit',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({
+        access_key:'97d5c4df-bf20-499c-a293-1fce4664e5b6',
+        name:document.getElementById('f-name').value,
+        email:document.getElementById('f-email').value,
+        company:document.getElementById('f-company').value,
+        service:document.getElementById('f-service').value,
+        message:document.getElementById('f-msg').value,
+        subject:'Nuevo contacto desde al cuadrado²',
+        from_name:'al cuadrado² Web'
+      })
+    });
+    const data=await res.json();
+    if(data.success){
+      form.style.display='none';
+      ok.style.display='block';
+    }else{
+      btn.textContent='Error, intentá de nuevo';
+      btn.disabled=false;
+    }
+  }catch(err){
+    btn.textContent='Error, intentá de nuevo';
+    btn.disabled=false;
+  }
 }
 </script>
 </body>
